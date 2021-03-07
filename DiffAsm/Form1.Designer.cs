@@ -1,0 +1,153 @@
+﻿
+namespace DiffAsm
+{
+    partial class Form1
+    {
+        /// <summary>
+        ///  Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        ///  Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        ///  Required method for Designer support - do not modify
+        ///  the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.textBoxOriginal = new System.Windows.Forms.TextBox();
+            this.textBoxPatched = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.richTextBoxOriginal = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxPatched = new System.Windows.Forms.RichTextBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.buttonDiff = new System.Windows.Forms.Button();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.SuspendLayout();
+            // 
+            // textBoxOriginal
+            // 
+            this.textBoxOriginal.Location = new System.Drawing.Point(12, 13);
+            this.textBoxOriginal.Name = "textBoxOriginal";
+            this.textBoxOriginal.Size = new System.Drawing.Size(271, 23);
+            this.textBoxOriginal.TabIndex = 0;
+            // 
+            // textBoxPatched
+            // 
+            this.textBoxPatched.Location = new System.Drawing.Point(455, 14);
+            this.textBoxPatched.Name = "textBoxPatched";
+            this.textBoxPatched.Size = new System.Drawing.Size(271, 23);
+            this.textBoxPatched.TabIndex = 1;
+            // 
+            // button1
+            // 
+            this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button1.Location = new System.Drawing.Point(289, 13);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(24, 24);
+            this.button1.TabIndex = 2;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
+            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button2.Location = new System.Drawing.Point(732, 14);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(24, 24);
+            this.button2.TabIndex = 3;
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // richTextBoxOriginal
+            // 
+            this.richTextBoxOriginal.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.richTextBoxOriginal.Location = new System.Drawing.Point(4, 51);
+            this.richTextBoxOriginal.Name = "richTextBoxOriginal";
+            this.richTextBoxOriginal.Size = new System.Drawing.Size(445, 389);
+            this.richTextBoxOriginal.TabIndex = 4;
+            this.richTextBoxOriginal.Text = "";
+            // 
+            // richTextBoxPatched
+            // 
+            this.richTextBoxPatched.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.richTextBoxPatched.Location = new System.Drawing.Point(455, 51);
+            this.richTextBoxPatched.Name = "richTextBoxPatched";
+            this.richTextBoxPatched.Size = new System.Drawing.Size(445, 389);
+            this.richTextBoxPatched.TabIndex = 5;
+            this.richTextBoxPatched.Text = "";
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // buttonDiff
+            // 
+            this.buttonDiff.Location = new System.Drawing.Point(364, 442);
+            this.buttonDiff.Name = "buttonDiff";
+            this.buttonDiff.Size = new System.Drawing.Size(173, 31);
+            this.buttonDiff.TabIndex = 6;
+            this.buttonDiff.Text = "Diff";
+            this.buttonDiff.UseVisualStyleBackColor = true;
+            this.buttonDiff.Click += new System.EventHandler(this.buttonDiff_Click);
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(6, 479);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(893, 18);
+            this.progressBar1.TabIndex = 7;
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(911, 502);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.buttonDiff);
+            this.Controls.Add(this.richTextBoxPatched);
+            this.Controls.Add(this.richTextBoxOriginal);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.textBoxPatched);
+            this.Controls.Add(this.textBoxOriginal);
+            this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "DiffAsm ©SVz 2o21";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.TextBox textBoxOriginal;
+        private System.Windows.Forms.TextBox textBoxPatched;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.RichTextBox richTextBoxOriginal;
+        private System.Windows.Forms.RichTextBox richTextBoxPatched;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button buttonDiff;
+        private System.Windows.Forms.ProgressBar progressBar1;
+    }
+}
+
