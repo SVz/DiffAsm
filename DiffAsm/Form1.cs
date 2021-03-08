@@ -29,7 +29,13 @@ namespace DiffAsm
             formatter.Options.FirstOperandCharIndex = 10;
             var outputO = new StringOutput();
             var outputP = new StringOutput();
+
             progressBar1.Maximum = instructionsOriginal.Count();
+            richTextBoxOriginal.BackColor = Color.AliceBlue;
+            richTextBoxOriginal.ForeColor = Color.DarkBlue;
+            richTextBoxPatched.BackColor = Color.AliceBlue;
+            richTextBoxPatched.ForeColor = Color.DarkBlue;
+            int curline = 0;
             for (int i= 0; i < instructionsOriginal.Count(); i++)
             {
                 var instrO = instructionsOriginal[i];
@@ -38,21 +44,30 @@ namespace DiffAsm
                 {
                     for (int y = i-4 ; y < (i+5) ; y++)
                     {
-                        if (y == i)
-                        {
-                        }
-                        else
-                        {
-                        }
+                        
                         AffRich(instructionsOriginal[y], richTextBoxOriginal, outputO);
                         AffRich(instructionsPatched[y], richTextBoxPatched, outputP);
+
+                        if (y == i)
+                        {
+                            richTextBoxOriginal.Select(richTextBoxOriginal.GetFirstCharIndexFromLine(curline), richTextBoxOriginal.Lines[curline].Length);
+                            richTextBoxOriginal.SelectionColor = Color.Crimson;
+                            richTextBoxOriginal.SelectionBackColor = Color.LavenderBlush;
+                            richTextBoxPatched.Select(richTextBoxPatched.GetFirstCharIndexFromLine(curline), richTextBoxPatched.Lines[curline].Length);
+                            richTextBoxPatched.SelectionColor = Color.Crimson;
+                            richTextBoxPatched.SelectionBackColor = Color.LavenderBlush;
+                        }
+                        curline++;
                     }
+
                     richTextBoxOriginal.AppendText("----------------" + Environment.NewLine);
                     richTextBoxPatched.AppendText("----------------" + Environment.NewLine);
+                    curline++;
+
                 }
                 progressBar1.Value = i;
             }
-
+            progressBar1.Value = 0;
         }
         private void AffRich(Instruction instruction, RichTextBox richTextBox, StringOutput stringOutput)
         {
@@ -62,7 +77,8 @@ namespace DiffAsm
             richTextBox.AppendText(" ");
 
             richTextBox.AppendText(" ");
-            richTextBox.AppendText(stringOutput.ToStringAndReset() + Environment.NewLine);
+            string endasm = stringOutput.ToStringAndReset().PadRight(60);
+            richTextBox.AppendText(endasm + Environment.NewLine);
         }
 
         private InstructionList Disamexe(string fileexe)
