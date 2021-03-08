@@ -31,10 +31,10 @@ namespace DiffAsm
             var outputP = new StringOutput();
 
             progressBar1.Maximum = instructionsOriginal.Count();
-            richTextBoxOriginal.BackColor = Color.AliceBlue;
-            richTextBoxOriginal.ForeColor = Color.DarkBlue;
-            richTextBoxPatched.BackColor = Color.AliceBlue;
-            richTextBoxPatched.ForeColor = Color.DarkBlue;
+            richTextBoxOriginal.BackColor = Color.Azure;
+            //richTextBoxOriginal.ForeColor = Color.DarkBlue;
+            richTextBoxPatched.BackColor = Color.Azure;
+            //richTextBoxPatched.ForeColor = Color.DarkBlue;
             int curline = 0;
             for (int i= 0; i < instructionsOriginal.Count(); i++)
             {
@@ -51,11 +51,11 @@ namespace DiffAsm
                         if (y == i)
                         {
                             richTextBoxOriginal.Select(richTextBoxOriginal.GetFirstCharIndexFromLine(curline), richTextBoxOriginal.Lines[curline].Length);
-                            richTextBoxOriginal.SelectionColor = Color.Crimson;
-                            richTextBoxOriginal.SelectionBackColor = Color.LavenderBlush;
+                            //richTextBoxOriginal.SelectionColor = Color.Crimson;
+                            richTextBoxOriginal.SelectionBackColor = Color.Moccasin;
                             richTextBoxPatched.Select(richTextBoxPatched.GetFirstCharIndexFromLine(curline), richTextBoxPatched.Lines[curline].Length);
-                            richTextBoxPatched.SelectionColor = Color.Crimson;
-                            richTextBoxPatched.SelectionBackColor = Color.LavenderBlush;
+                            //richTextBoxPatched.SelectionColor = Color.Crimson;
+                            richTextBoxPatched.SelectionBackColor = Color.Moccasin;
                         }
                         curline++;
                     }

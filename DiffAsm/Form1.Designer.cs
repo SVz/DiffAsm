@@ -90,6 +90,7 @@ namespace DiffAsm
             this.richTextBoxOriginal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxOriginal.BackColor = System.Drawing.Color.Azure;
             this.richTextBoxOriginal.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBoxOriginal.Location = new System.Drawing.Point(6, 42);
             this.richTextBoxOriginal.Name = "richTextBoxOriginal";
@@ -102,6 +103,7 @@ namespace DiffAsm
             this.richTextBoxPatched.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxPatched.BackColor = System.Drawing.Color.Azure;
             this.richTextBoxPatched.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBoxPatched.Location = new System.Drawing.Point(457, 42);
             this.richTextBoxPatched.Name = "richTextBoxPatched";
@@ -139,6 +141,7 @@ namespace DiffAsm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(911, 491);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.buttonDiff);
