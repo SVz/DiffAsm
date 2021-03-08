@@ -43,6 +43,8 @@ namespace DiffAsm
             // 
             // textBoxOriginal
             // 
+            this.textBoxOriginal.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxOriginal.Location = new System.Drawing.Point(6, 12);
             this.textBoxOriginal.Name = "textBoxOriginal";
             this.textBoxOriginal.Size = new System.Drawing.Size(415, 23);
@@ -50,6 +52,8 @@ namespace DiffAsm
             // 
             // textBoxPatched
             // 
+            this.textBoxPatched.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxPatched.Location = new System.Drawing.Point(457, 12);
             this.textBoxPatched.Name = "textBoxPatched";
             this.textBoxPatched.Size = new System.Drawing.Size(414, 23);
@@ -57,6 +61,8 @@ namespace DiffAsm
             // 
             // button1
             // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button1.Location = new System.Drawing.Point(427, 12);
@@ -68,6 +74,8 @@ namespace DiffAsm
             // 
             // button2
             // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
             this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button2.Location = new System.Drawing.Point(877, 12);
@@ -79,6 +87,9 @@ namespace DiffAsm
             // 
             // richTextBoxOriginal
             // 
+            this.richTextBoxOriginal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxOriginal.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBoxOriginal.Location = new System.Drawing.Point(6, 42);
             this.richTextBoxOriginal.Name = "richTextBoxOriginal";
@@ -88,6 +99,9 @@ namespace DiffAsm
             // 
             // richTextBoxPatched
             // 
+            this.richTextBoxPatched.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxPatched.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBoxPatched.Location = new System.Drawing.Point(457, 42);
             this.richTextBoxPatched.Name = "richTextBoxPatched";
@@ -101,6 +115,8 @@ namespace DiffAsm
             // 
             // buttonDiff
             // 
+            this.buttonDiff.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonDiff.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonDiff.BackgroundImage")));
             this.buttonDiff.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.buttonDiff.Location = new System.Drawing.Point(844, 437);
@@ -112,6 +128,8 @@ namespace DiffAsm
             // 
             // progressBar1
             // 
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar1.Location = new System.Drawing.Point(6, 437);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(832, 18);
@@ -131,6 +149,8 @@ namespace DiffAsm
             this.Controls.Add(this.textBoxPatched);
             this.Controls.Add(this.textBoxOriginal);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(927, 2048);
+            this.MinimumSize = new System.Drawing.Size(927, 100);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DiffAsm ©SVz 2o21";
