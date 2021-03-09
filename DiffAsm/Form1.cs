@@ -22,6 +22,12 @@ namespace DiffAsm
 
         private void buttonDiff_Click(object sender, EventArgs e)
         {
+            int nbdiff = 0;
+            int curline = 0;
+            bool equal = true;
+            int nb_inst_O = 0;
+            int nb_inst_P = 0;
+
             var instructionsOriginal = Disamexe(textBoxOriginal.Text);
             var instructionsPatched = Disamexe(textBoxPatched.Text);
             var formatter = new MasmFormatter();
@@ -35,11 +41,7 @@ namespace DiffAsm
             richTextBoxOriginal.ForeColor = Color.DarkBlue;
             richTextBoxPatched.BackColor = Color.AliceBlue;
             richTextBoxPatched.ForeColor = Color.DarkBlue;
-            int nbdiff = 0;
-            int curline = 0;
-            bool equal = true;
-            int nb_inst_O = 0; 
-            int nb_inst_P = 0;
+
             while (nb_inst_O < instructionsOriginal.Count() && nb_inst_P < instructionsPatched.Count())
             {
                 var instrO = instructionsOriginal[nb_inst_O];
@@ -56,13 +58,8 @@ namespace DiffAsm
                      }
                     AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO);
                     AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP);
-
-                    richTextBoxOriginal.Select(richTextBoxOriginal.GetFirstCharIndexFromLine(curline), richTextBoxOriginal.Lines[curline].Length);
-                    richTextBoxOriginal.SelectionColor = Color.Crimson;
-                    richTextBoxOriginal.SelectionBackColor = Color.LavenderBlush;
-                    richTextBoxPatched.Select(richTextBoxPatched.GetFirstCharIndexFromLine(curline), richTextBoxPatched.Lines[curline].Length);
-                    richTextBoxPatched.SelectionColor = Color.Crimson;
-                    richTextBoxPatched.SelectionBackColor = Color.LavenderBlush;
+                    ModifColor(richTextBoxOriginal, curline);
+                    ModifColor(richTextBoxPatched, curline);
 
                     curline++;
                     nb_inst_O++;
@@ -74,9 +71,7 @@ namespace DiffAsm
                     {
                         AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO);
                         richTextBoxPatched.AppendText(Environment.NewLine);
-                        richTextBoxOriginal.Select(richTextBoxOriginal.GetFirstCharIndexFromLine(curline), richTextBoxOriginal.Lines[curline].Length);
-                        richTextBoxOriginal.SelectionColor = Color.Crimson;
-                        richTextBoxOriginal.SelectionBackColor = Color.LavenderBlush;
+                        ModifColor(richTextBoxOriginal, curline);
 
                         curline++;
                         nb_inst_O++;
@@ -86,9 +81,7 @@ namespace DiffAsm
                     {
                         AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP);
                         richTextBoxOriginal.AppendText(Environment.NewLine);
-                        richTextBoxPatched.Select(richTextBoxPatched.GetFirstCharIndexFromLine(curline), richTextBoxPatched.Lines[curline].Length);
-                        richTextBoxPatched.SelectionColor = Color.Crimson;
-                        richTextBoxPatched.SelectionBackColor = Color.LavenderBlush;
+                        ModifColor(richTextBoxPatched, curline);
 
                         curline++;
                         nb_inst_P++;
@@ -116,6 +109,13 @@ namespace DiffAsm
                 progressBar1.Value = nb_inst_O; 
             }
             progressBar1.Value = 0;
+        }
+
+        private void ModifColor(RichTextBox richTextBox, int curline)
+        {
+            richTextBox.Select(richTextBox.GetFirstCharIndexFromLine(curline), richTextBox.Lines[curline].Length);
+            richTextBox.SelectionColor = Color.Crimson;
+            richTextBox.SelectionBackColor = Color.LavenderBlush;
         }
         private void AffRich(Instruction instruction, RichTextBox richTextBox, StringOutput stringOutput)
         {
