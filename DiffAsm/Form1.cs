@@ -35,37 +35,85 @@ namespace DiffAsm
             richTextBoxOriginal.ForeColor = Color.DarkBlue;
             richTextBoxPatched.BackColor = Color.AliceBlue;
             richTextBoxPatched.ForeColor = Color.DarkBlue;
+            int nbdiff = 0;
             int curline = 0;
-            for (int i= 0; i < instructionsOriginal.Count(); i++)
+            bool equal = true;
+            int nb_inst_O = 0; 
+            int nb_inst_P = 0;
+            while (nb_inst_O < instructionsOriginal.Count() && nb_inst_P < instructionsPatched.Count())
             {
-                var instrO = instructionsOriginal[i];
-                var instrP = instructionsPatched[i];
-                if (instrO.ToString() != instrP.ToString())
-                {
-                    for (int y = i-4 ; y < (i+5) ; y++)
-                    {
-                        
-                        AffRich(instructionsOriginal[y], richTextBoxOriginal, outputO);
-                        AffRich(instructionsPatched[y], richTextBoxPatched, outputP);
+                var instrO = instructionsOriginal[nb_inst_O];
+                var instrP = instructionsPatched[nb_inst_P];
 
-                        if (y == i)
-                        {
-                            richTextBoxOriginal.Select(richTextBoxOriginal.GetFirstCharIndexFromLine(curline), richTextBoxOriginal.Lines[curline].Length);
-                            richTextBoxOriginal.SelectionColor = Color.Crimson;
-                            richTextBoxOriginal.SelectionBackColor = Color.LavenderBlush;
-                            richTextBoxPatched.Select(richTextBoxPatched.GetFirstCharIndexFromLine(curline), richTextBoxPatched.Lines[curline].Length);
-                            richTextBoxPatched.SelectionColor = Color.Crimson;
-                            richTextBoxPatched.SelectionBackColor = Color.LavenderBlush;
-                        }
+                while  ((instrO.ToString() != instrP.ToString()) || (instrO.IP != instrP.IP))
+                {
+                    if (equal)
+                    {
+                        AffRich(instructionsOriginal[nb_inst_O-1], richTextBoxOriginal, outputO);
+                        AffRich(instructionsPatched[nb_inst_P-1], richTextBoxPatched, outputP);
                         curline++;
+                        equal = false;
+                     }
+                    AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO);
+                    AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP);
+
+                    richTextBoxOriginal.Select(richTextBoxOriginal.GetFirstCharIndexFromLine(curline), richTextBoxOriginal.Lines[curline].Length);
+                    richTextBoxOriginal.SelectionColor = Color.Crimson;
+                    richTextBoxOriginal.SelectionBackColor = Color.LavenderBlush;
+                    richTextBoxPatched.Select(richTextBoxPatched.GetFirstCharIndexFromLine(curline), richTextBoxPatched.Lines[curline].Length);
+                    richTextBoxPatched.SelectionColor = Color.Crimson;
+                    richTextBoxPatched.SelectionBackColor = Color.LavenderBlush;
+
+                    curline++;
+                    nb_inst_O++;
+                    nb_inst_P++;
+                    instrO = instructionsOriginal[nb_inst_O];
+                    instrP = instructionsPatched[nb_inst_P];
+
+                    while (instrO.IP < instrP.IP)
+                    {
+                        AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO);
+                        richTextBoxPatched.AppendText(Environment.NewLine);
+                        richTextBoxOriginal.Select(richTextBoxOriginal.GetFirstCharIndexFromLine(curline), richTextBoxOriginal.Lines[curline].Length);
+                        richTextBoxOriginal.SelectionColor = Color.Crimson;
+                        richTextBoxOriginal.SelectionBackColor = Color.LavenderBlush;
+
+                        curline++;
+                        nb_inst_O++;
+                        instrO = instructionsOriginal[nb_inst_O];
+                    }
+                    while (instrO.IP > instrP.IP)
+                    {
+                        AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP);
+                        richTextBoxOriginal.AppendText(Environment.NewLine);
+                        richTextBoxPatched.Select(richTextBoxPatched.GetFirstCharIndexFromLine(curline), richTextBoxPatched.Lines[curline].Length);
+                        richTextBoxPatched.SelectionColor = Color.Crimson;
+                        richTextBoxPatched.SelectionBackColor = Color.LavenderBlush;
+
+                        curline++;
+                        nb_inst_P++;
+                        instrP = instructionsPatched[nb_inst_P];
                     }
 
-                    richTextBoxOriginal.AppendText("----------------" + Environment.NewLine);
-                    richTextBoxPatched.AppendText("----------------" + Environment.NewLine);
-                    curline++;
+                    nbdiff++;
 
                 }
-                progressBar1.Value = i;
+
+                if (!equal)
+                {
+                    AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO);
+                    AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP);
+                    curline++;
+                    richTextBoxOriginal.AppendText("----------------------------------------------------" + Environment.NewLine);
+                    richTextBoxPatched.AppendText("----------------------------------------------------" + Environment.NewLine);
+                    curline++;
+                    equal = true;
+                }
+
+                nb_inst_O++;
+                nb_inst_P++;
+
+                progressBar1.Value = nb_inst_O; 
             }
             progressBar1.Value = 0;
         }
