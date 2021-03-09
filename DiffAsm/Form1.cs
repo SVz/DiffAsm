@@ -87,9 +87,7 @@ namespace DiffAsm
                         nb_inst_P++;
                         instrP = instructionsPatched[nb_inst_P];
                     }
-
                     nbdiff++;
-
                 }
 
                 if (!equal)
@@ -117,6 +115,7 @@ namespace DiffAsm
             richTextBox.SelectionColor = Color.Crimson;
             richTextBox.SelectionBackColor = Color.LavenderBlush;
         }
+
         private void AffRich(Instruction instruction, RichTextBox richTextBox, StringOutput stringOutput)
         {
             var formatter = new MasmFormatter();
@@ -152,34 +151,7 @@ namespace DiffAsm
             {
                 decoder.Decode(out instructions.AllocUninitializedElement());
             }
-
             return instructions;
-        }
-        private void Asmtorichbox(InstructionList instructions, RichTextBox richTextBox)
-        {
-            var formatter = new MasmFormatter();
-            formatter.Options.DigitSeparator = "";
-            formatter.Options.FirstOperandCharIndex = 10;
-            var output = new StringOutput();
-
-            foreach (ref var instr in instructions)
-            {
-                formatter.Format(instr, output);
-                //richTextBox.BackColor = Color.AliceBlue;
-                //richTextBox.ForeColor = Color.Aqua;
-                richTextBox.AppendText(instr.IP.ToString("X16"));
-                richTextBox.AppendText(" ");
-                //int instrLen = instr.Length;
-                //int byteBaseIndex = (int)(instr.IP - exampleCodeRIP);
-                //for (int i = 0; i < instrLen; i++)
-                //    richTextBox.AppendText(codeBytes[byteBaseIndex + i].ToString("X2"));
-                //int missingBytes = HEXBYTES_COLUMN_BYTE_LENGTH - instrLen;
-                //for (int i = 0; i < missingBytes; i++)
-                //    richTextBox.AppendText("  ");
-                richTextBox.AppendText(" ");
-                richTextBox.AppendText(output.ToStringAndReset() + Environment.NewLine);
-
-            }
         }
 
             private void button1_Click(object sender, EventArgs e)
@@ -188,8 +160,6 @@ namespace DiffAsm
             if (result == DialogResult.OK) // Test result.
             {
                 textBoxOriginal.Text = openFileDialog1.FileName;
-                //var instructionsOriginal = Disamexe(textBoxOriginal.Text);
-                //Asmtorichbox(instructionsOriginal,richTextBoxOriginal);
             }
 
         }
@@ -200,8 +170,6 @@ namespace DiffAsm
             if (result == DialogResult.OK) // Test result.
             {
                 textBoxPatched.Text = openFileDialog1.FileName;
-                //var instructionsPatched = Disamexe(textBoxPatched.Text);
-                //Asmtorichbox(instructionsPatched, richTextBoxPatched);
             }
 
         }
