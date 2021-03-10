@@ -22,6 +22,9 @@ namespace DiffAsm
 
         private void buttonDiff_Click(object sender, EventArgs e)
         {
+            richTextBoxOriginal.Clear();
+            richTextBoxPatched.Clear();
+
             int nbdiff = 0;
             int curline = 0;
             bool equal = true;
