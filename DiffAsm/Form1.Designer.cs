@@ -109,10 +109,6 @@ namespace DiffAsm
             this.richTextBoxPatched.TabIndex = 5;
             this.richTextBoxPatched.Text = "";
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // buttonDiff
             // 
             this.buttonDiff.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
