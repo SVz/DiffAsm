@@ -97,6 +97,7 @@ namespace DiffAsm
             this.richTextBoxOriginal.Size = new System.Drawing.Size(445, 389);
             this.richTextBoxOriginal.TabIndex = 4;
             this.richTextBoxOriginal.Text = "";
+            this.richTextBoxOriginal.VScroll += new System.EventHandler(this.richTextBoxOriginal_VScroll);
             // 
             // richTextBoxPatched
             // 
@@ -110,6 +111,7 @@ namespace DiffAsm
             this.richTextBoxPatched.Size = new System.Drawing.Size(445, 389);
             this.richTextBoxPatched.TabIndex = 5;
             this.richTextBoxPatched.Text = "";
+            this.richTextBoxPatched.VScroll += new System.EventHandler(this.richTextBoxPatched_VScroll);
             // 
             // buttonDiff
             // 

@@ -15,6 +15,34 @@ namespace DiffAsm
 {
     public partial class Form1 : Form
     {
+        const int WM_USER = 0x400;
+        const int EM_GETSCROLLPOS = WM_USER + 221;
+        const int EM_SETSCROLLPOS = WM_USER + 222;
+        public bool done = false;
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern int SendMessage(IntPtr hWnd, int msg, int wParam, ref Point lParam);
+
+        private void richTextBoxOriginal_VScroll(object sender, EventArgs e)
+        {
+            Point pt = new Point();
+            if (done)
+            {
+                SendMessage(richTextBoxOriginal.Handle, EM_GETSCROLLPOS, 0, ref pt);
+                SendMessage(richTextBoxPatched.Handle, EM_SETSCROLLPOS, 0, ref pt);
+            }
+        }
+
+        private void richTextBoxPatched_VScroll(object sender, EventArgs e)
+        {
+            Point pt = new Point();
+            if (done)
+            {
+                SendMessage(richTextBoxPatched.Handle, EM_GETSCROLLPOS, 0, ref pt);
+                SendMessage(richTextBoxOriginal.Handle, EM_SETSCROLLPOS, 0, ref pt);
+            }
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -24,6 +52,7 @@ namespace DiffAsm
         {
             richTextBoxOriginal.Clear();
             richTextBoxPatched.Clear();
+            done = false;
 
             int nbdiff = 0;
             int curline = 0;
@@ -110,6 +139,7 @@ namespace DiffAsm
                 progressBar1.Value = nb_inst_O; 
             }
             progressBar1.Value = 0;
+            done = true;
         }
 
         private void ModifColor(RichTextBox richTextBox, int curline)
