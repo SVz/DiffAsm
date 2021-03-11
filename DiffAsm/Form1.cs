@@ -73,10 +73,10 @@ namespace DiffAsm
             var outputP = new StringOutput();
 
             progressBar1.Maximum = instructionsOriginal.Count();
-            richTextBoxOriginal.BackColor = Color.AliceBlue;
-            richTextBoxOriginal.ForeColor = Color.DarkBlue;
-            richTextBoxPatched.BackColor = Color.AliceBlue;
-            richTextBoxPatched.ForeColor = Color.DarkBlue;
+            richTextBoxOriginal.BackColor = Color.MintCream;
+            richTextBoxOriginal.ForeColor = Color.DarkGreen;
+            richTextBoxPatched.BackColor = Color.MintCream;
+            richTextBoxPatched.ForeColor = Color.DarkGreen;
 
             while (nb_inst_O < instructionsOriginal.Count() && nb_inst_P < instructionsPatched.Count())
             {
@@ -184,8 +184,9 @@ namespace DiffAsm
         //private InstructionList Disamexe(string fileexe)
         private CodeByte Disamexe(string fileexe)
         {
+            progressBar1.Maximum = 100;
             CodeByte codeByte = new CodeByte();
-
+            
             int exampleCodeBitness;
             var peHeader = new PeNet.PeFile(fileexe);
             if (peHeader.Is64Bit) { exampleCodeBitness = 64; } else { exampleCodeBitness = 32; }
@@ -206,6 +207,7 @@ namespace DiffAsm
             while (decoder.IP < endRip)
             {
                 decoder.Decode(out instructions.AllocUninitializedElement());
+                progressBar1.Value = (int)(decoder.IP * 100 / endRip);
             }
             codeByte.instructions = instructions;
             codeByte.hexcode = buffer;
