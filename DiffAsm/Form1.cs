@@ -48,6 +48,7 @@ namespace DiffAsm
             InitializeComponent();
         }
 
+
         private void buttonDiff_Click(object sender, EventArgs e)
         {
             richTextBoxOriginal.Clear();
@@ -60,8 +61,11 @@ namespace DiffAsm
             int nb_inst_O = 0;
             int nb_inst_P = 0;
 
-            var instructionsOriginal = Disamexe(textBoxOriginal.Text);
-            var instructionsPatched = Disamexe(textBoxPatched.Text);
+            var codebyteOriginal = Disamexe(textBoxOriginal.Text);
+            var codebytePatched = Disamexe(textBoxPatched.Text);
+            var instructionsOriginal = codebyteOriginal.instructions;
+            var instructionsPatched = codebytePatched.instructions;
+
             var formatter = new MasmFormatter();
             formatter.Options.DigitSeparator = "";
             formatter.Options.FirstOperandCharIndex = 10;
@@ -83,13 +87,13 @@ namespace DiffAsm
                 {
                     if (equal)
                     {
-                        AffRich(instructionsOriginal[nb_inst_O-1], richTextBoxOriginal, outputO);
-                        AffRich(instructionsPatched[nb_inst_P-1], richTextBoxPatched, outputP);
+                        AffRich(instructionsOriginal[nb_inst_O-1], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
+                        AffRich(instructionsPatched[nb_inst_P-1], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
                         curline++;
                         equal = false;
                      }
-                    AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO);
-                    AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP);
+                    AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
+                    AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
                     ModifColor(richTextBoxOriginal, curline);
                     ModifColor(richTextBoxPatched, curline);
 
@@ -101,7 +105,7 @@ namespace DiffAsm
 
                     while (instrO.IP < instrP.IP)
                     {
-                        AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO);
+                        AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
                         richTextBoxPatched.AppendText(Environment.NewLine);
                         ModifColor(richTextBoxOriginal, curline);
 
@@ -111,7 +115,7 @@ namespace DiffAsm
                     }
                     while (instrO.IP > instrP.IP)
                     {
-                        AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP);
+                        AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
                         richTextBoxOriginal.AppendText(Environment.NewLine);
                         ModifColor(richTextBoxPatched, curline);
 
@@ -124,8 +128,8 @@ namespace DiffAsm
 
                 if (!equal)
                 {
-                    AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO);
-                    AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP);
+                    AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
+                    AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
                     curline++;
                     richTextBoxOriginal.AppendText("----------------------------------------------------" + Environment.NewLine);
                     richTextBoxPatched.AppendText("----------------------------------------------------" + Environment.NewLine);
@@ -149,20 +153,39 @@ namespace DiffAsm
             richTextBox.SelectionBackColor = Color.LavenderBlush;
         }
 
-        private void AffRich(Instruction instruction, RichTextBox richTextBox, StringOutput stringOutput)
+        private void AffRich(Instruction instruction, RichTextBox richTextBox, StringOutput stringOutput, byte[] buffer, ulong CodeRIP)
         {
+            const int HEXBYTES_COLUMN_BYTE_LENGTH = 10;
+
             var formatter = new MasmFormatter();
             formatter.Format(instruction, stringOutput);
             richTextBox.AppendText(instruction.IP.ToString("X16"));
             richTextBox.AppendText(" ");
+            int instrLen = instruction.Length;
+            int byteBaseIndex = (int)(instruction.IP - CodeRIP);
+            for (int i = 0; i < instrLen; i++)
+                richTextBox.AppendText(buffer[byteBaseIndex + i].ToString("X2"));
+            
+            int missingBytes = HEXBYTES_COLUMN_BYTE_LENGTH - instrLen;
+            for (int i = 0; i < missingBytes; i++)
+                richTextBox.AppendText("  ");
 
             richTextBox.AppendText(" ");
             string endasm = stringOutput.ToStringAndReset().PadRight(60);
             richTextBox.AppendText(endasm + Environment.NewLine);
         }
-
-        private InstructionList Disamexe(string fileexe)
+        private class CodeByte
         {
+            public InstructionList instructions;
+            public byte[] hexcode;
+            public ulong CodeRIP;
+        }
+
+        //private InstructionList Disamexe(string fileexe)
+        private CodeByte Disamexe(string fileexe)
+        {
+            CodeByte codeByte = new CodeByte();
+
             int exampleCodeBitness;
             var peHeader = new PeNet.PeFile(fileexe);
             if (peHeader.Is64Bit) { exampleCodeBitness = 64; } else { exampleCodeBitness = 32; }
@@ -184,7 +207,11 @@ namespace DiffAsm
             {
                 decoder.Decode(out instructions.AllocUninitializedElement());
             }
-            return instructions;
+            codeByte.instructions = instructions;
+            codeByte.hexcode = buffer;
+            codeByte.CodeRIP = exampleCodeRIP;
+
+            return codeByte;
         }
 
             private void button1_Click(object sender, EventArgs e)
@@ -194,7 +221,6 @@ namespace DiffAsm
             {
                 textBoxOriginal.Text = openFileDialog1.FileName;
             }
-
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -204,7 +230,6 @@ namespace DiffAsm
             {
                 textBoxPatched.Text = openFileDialog1.FileName;
             }
-
         }
     }
 }
