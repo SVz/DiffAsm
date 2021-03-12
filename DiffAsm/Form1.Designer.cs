@@ -39,6 +39,8 @@ namespace DiffAsm
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.buttonDiff = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.picboxPB = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxPB)).BeginInit();
             this.SuspendLayout();
             // 
             // textBoxOriginal
@@ -135,12 +137,24 @@ namespace DiffAsm
             this.progressBar1.Size = new System.Drawing.Size(832, 18);
             this.progressBar1.TabIndex = 7;
             // 
+            // picboxPB
+            // 
+            this.picboxPB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.picboxPB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picboxPB.Location = new System.Drawing.Point(6, 462);
+            this.picboxPB.Name = "picboxPB";
+            this.picboxPB.Size = new System.Drawing.Size(832, 17);
+            this.picboxPB.TabIndex = 8;
+            this.picboxPB.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(911, 491);
+            this.Controls.Add(this.picboxPB);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.buttonDiff);
             this.Controls.Add(this.richTextBoxPatched);
@@ -154,7 +168,9 @@ namespace DiffAsm
             this.MinimumSize = new System.Drawing.Size(927, 100);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DiffAsm ©SVz 2o21";
+            this.Text = "DiffAsm v1.0 ©SVz 2o21";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.picboxPB)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -171,6 +187,7 @@ namespace DiffAsm
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button buttonDiff;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.PictureBox picboxPB;
     }
 }
 

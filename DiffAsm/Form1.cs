@@ -19,6 +19,11 @@ namespace DiffAsm
         const int EM_GETSCROLLPOS = WM_USER + 221;
         const int EM_SETSCROLLPOS = WM_USER + 222;
         public bool done = false;
+        double pbUnit;
+        int pbWIDTH, pbHEIGHT, pbComplete;
+        Bitmap bmp;
+        Graphics g;
+
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         static extern int SendMessage(IntPtr hWnd, int msg, int wParam, ref Point lParam);
@@ -91,7 +96,8 @@ namespace DiffAsm
                         AffRich(instructionsPatched[nb_inst_P-1], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
                         curline++;
                         equal = false;
-                     }
+                        RedProgess(((float)nb_inst_O / (float)instructionsOriginal.Count() * 100));
+                    }
                     AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
                     AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
                     ModifColor(richTextBoxOriginal, curline);
@@ -144,6 +150,13 @@ namespace DiffAsm
             }
             progressBar1.Value = 0;
             done = true;
+        }
+
+        private void RedProgess(float percent)
+        {
+            pbComplete = (int)Math.Round((decimal)percent);
+            g.FillRectangle(Brushes.PaleVioletRed, new Rectangle((int)(Math.Floor(pbComplete * pbUnit)), 0, (int)(Math.Round(pbUnit)), pbHEIGHT));
+            picboxPB.Image = bmp;
         }
 
         private void ModifColor(RichTextBox richTextBox, int curline)
@@ -232,6 +245,21 @@ namespace DiffAsm
             {
                 textBoxPatched.Text = openFileDialog1.FileName;
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            pbWIDTH = picboxPB.Width;
+            pbHEIGHT = picboxPB.Height;
+            pbUnit = pbWIDTH / 100.0;
+            //pbComplete - This is equal to work completed in % [min = 0 max = 100]
+            pbComplete = 0;
+            //create bitmap
+            bmp = new Bitmap(pbWIDTH, pbHEIGHT);
+            g = Graphics.FromImage(bmp);
+            g.Clear(Color.MintCream);
+            picboxPB.Image = bmp;
+
         }
     }
 }
