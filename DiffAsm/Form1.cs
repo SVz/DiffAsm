@@ -16,6 +16,7 @@ namespace DiffAsm
     public partial class Form1 : Form
     {
         const int WM_USER = 0x400;
+        const int PROGRESS_MODULO = 1000;
         const int EM_GETSCROLLPOS = WM_USER + 221;
         const int EM_SETSCROLLPOS = WM_USER + 222;
         public bool done = false;
@@ -150,7 +151,8 @@ namespace DiffAsm
                 nb_inst_O++;
                 nb_inst_P++;
 
-                progressBar1.Value = nb_inst_O; 
+                if (nb_inst_O % PROGRESS_MODULO == 0)
+                    progressBar1.Value = nb_inst_O; 
             }
             progressBar1.Value = 0;
             done = true;
@@ -223,7 +225,8 @@ namespace DiffAsm
             while (decoder.IP < endRip)
             {
                 decoder.Decode(out instructions.AllocUninitializedElement());
-                progressBar1.Value = (int)(decoder.IP * 100 / endRip);
+                if (decoder.IP % PROGRESS_MODULO == 0)
+                    progressBar1.Value = (int)(decoder.IP * 100 / endRip);
             }
             codeByte.instructions = instructions;
             codeByte.hexcode = buffer;
