@@ -132,7 +132,7 @@ namespace DiffAsm
             // 
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(6, 437);
+            this.progressBar1.Location = new System.Drawing.Point(6, 441);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(832, 18);
             this.progressBar1.TabIndex = 7;
@@ -142,7 +142,7 @@ namespace DiffAsm
             this.picboxPB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.picboxPB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picboxPB.Location = new System.Drawing.Point(6, 462);
+            this.picboxPB.Location = new System.Drawing.Point(6, 466);
             this.picboxPB.Name = "picboxPB";
             this.picboxPB.Size = new System.Drawing.Size(832, 17);
             this.picboxPB.TabIndex = 8;
