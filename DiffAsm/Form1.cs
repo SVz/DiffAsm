@@ -58,6 +58,10 @@ namespace DiffAsm
         {
             richTextBoxOriginal.Clear();
             richTextBoxPatched.Clear();
+
+            g.Clear(Color.MintCream);
+            picboxPB.Image = bmp;
+
             done = false;
 
             int nbdiff = 0;
@@ -194,7 +198,6 @@ namespace DiffAsm
             public ulong CodeRIP;
         }
 
-        //private InstructionList Disamexe(string fileexe)
         private CodeByte Disamexe(string fileexe)
         {
             progressBar1.Maximum = 100;
