@@ -3,7 +3,7 @@
 
 ### Features
 - Compare 2 executable files and show different instructions.
-- Graphic modified code localisation in executable section.
+- Graphical modified code localisation in executable section.
 
 ### Contributions
 - DiffAsm uses the `Iced` library by 0xd4d.
