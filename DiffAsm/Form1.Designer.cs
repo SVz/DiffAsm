@@ -96,6 +96,7 @@ namespace DiffAsm
             this.richTextBoxOriginal.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBoxOriginal.Location = new System.Drawing.Point(6, 42);
             this.richTextBoxOriginal.Name = "richTextBoxOriginal";
+            this.richTextBoxOriginal.ReadOnly = true;
             this.richTextBoxOriginal.Size = new System.Drawing.Size(445, 389);
             this.richTextBoxOriginal.TabIndex = 4;
             this.richTextBoxOriginal.Text = "";
@@ -110,6 +111,7 @@ namespace DiffAsm
             this.richTextBoxPatched.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBoxPatched.Location = new System.Drawing.Point(457, 42);
             this.richTextBoxPatched.Name = "richTextBoxPatched";
+            this.richTextBoxPatched.ReadOnly = true;
             this.richTextBoxPatched.Size = new System.Drawing.Size(445, 389);
             this.richTextBoxPatched.TabIndex = 5;
             this.richTextBoxPatched.Text = "";
