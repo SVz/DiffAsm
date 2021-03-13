@@ -25,7 +25,6 @@ namespace DiffAsm
         Bitmap bmp;
         Graphics g;
 
-
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         static extern int SendMessage(IntPtr hWnd, int msg, int wParam, ref Point lParam);
 
@@ -54,108 +53,119 @@ namespace DiffAsm
             InitializeComponent();
         }
 
-
         private void buttonDiff_Click(object sender, EventArgs e)
         {
-            richTextBoxOriginal.Clear();
-            richTextBoxPatched.Clear();
-
-            g.Clear(Color.MintCream);
-            picboxPB.Image = bmp;
-
-            done = false;
-
-            int nbdiff = 0;
-            int curline = 0;
-            bool equal = true;
-            int nb_inst_O = 0;
-            int nb_inst_P = 0;
-
-            var codebyteOriginal = Disamexe(textBoxOriginal.Text);
-            var codebytePatched = Disamexe(textBoxPatched.Text);
-            var instructionsOriginal = codebyteOriginal.instructions;
-            var instructionsPatched = codebytePatched.instructions;
-
-            var formatter = new MasmFormatter();
-            formatter.Options.DigitSeparator = "";
-            formatter.Options.FirstOperandCharIndex = 10;
-            var outputO = new StringOutput();
-            var outputP = new StringOutput();
-
-            progressBar1.Maximum = instructionsOriginal.Count();
-            richTextBoxOriginal.BackColor = Color.MintCream;
-            richTextBoxOriginal.ForeColor = Color.DarkGreen;
-            richTextBoxPatched.BackColor = Color.MintCream;
-            richTextBoxPatched.ForeColor = Color.DarkGreen;
-
-            while (nb_inst_O < instructionsOriginal.Count() && nb_inst_P < instructionsPatched.Count())
+            try
             {
-                var instrO = instructionsOriginal[nb_inst_O];
-                var instrP = instructionsPatched[nb_inst_P];
+                richTextBoxOriginal.Clear();
+                richTextBoxPatched.Clear();
 
-                while  ((instrO.ToString() != instrP.ToString()) || (instrO.IP != instrP.IP))
+                g.Clear(Color.MintCream);
+                picboxPB.Image = bmp;
+
+                done = false;
+
+                int nbdiff = 0;
+                int curline = 0;
+                bool equal = true;
+                int nb_inst_O = 0;
+                int nb_inst_P = 0;
+
+                var codebyteOriginal = Disamexe(textBoxOriginal.Text);
+                var codebytePatched = Disamexe(textBoxPatched.Text);
+                var instructionsOriginal = codebyteOriginal.instructions;
+                var instructionsPatched = codebytePatched.instructions;
+
+                var formatter = new MasmFormatter();
+                formatter.Options.DigitSeparator = "";
+                formatter.Options.FirstOperandCharIndex = 10;
+                var outputO = new StringOutput();
+                var outputP = new StringOutput();
+
+                progressBar1.Maximum = instructionsOriginal.Count();
+                richTextBoxOriginal.BackColor = Color.MintCream;
+                richTextBoxOriginal.ForeColor = Color.DarkGreen;
+                richTextBoxPatched.BackColor = Color.MintCream;
+                richTextBoxPatched.ForeColor = Color.DarkGreen;
+
+                while (nb_inst_O < instructionsOriginal.Count() && nb_inst_P < instructionsPatched.Count())
                 {
-                    if (equal)
-                    {
-                        AffRich(instructionsOriginal[nb_inst_O-1], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
-                        AffRich(instructionsPatched[nb_inst_P-1], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
-                        curline++;
-                        equal = false;
-                        RedProgess(((float)nb_inst_O / (float)instructionsOriginal.Count() * 100));
-                    }
-                    AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
-                    AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
-                    ModifColor(richTextBoxOriginal, curline);
-                    ModifColor(richTextBoxPatched, curline);
+                    var instrO = instructionsOriginal[nb_inst_O];
+                    var instrP = instructionsPatched[nb_inst_P];
 
-                    curline++;
-                    nb_inst_O++;
-                    nb_inst_P++;
-                    instrO = instructionsOriginal[nb_inst_O];
-                    instrP = instructionsPatched[nb_inst_P];
-
-                    while (instrO.IP < instrP.IP)
+                    while ((instrO.ToString() != instrP.ToString()) || (instrO.IP != instrP.IP))
                     {
+                        if (equal)
+                        {
+                            AffRich(instructionsOriginal[nb_inst_O - 1], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
+                            AffRich(instructionsPatched[nb_inst_P - 1], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
+                            curline++;
+                            equal = false;
+                            RedProgess(((float)nb_inst_O / (float)instructionsOriginal.Count() * 100));
+                        }
                         AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
-                        richTextBoxPatched.AppendText(Environment.NewLine);
-                        ModifColor(richTextBoxOriginal, curline);
-
-                        curline++;
-                        nb_inst_O++;
-                        instrO = instructionsOriginal[nb_inst_O];
-                    }
-                    while (instrO.IP > instrP.IP)
-                    {
                         AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
-                        richTextBoxOriginal.AppendText(Environment.NewLine);
+                        ModifColor(richTextBoxOriginal, curline);
                         ModifColor(richTextBoxPatched, curline);
 
                         curline++;
+                        nb_inst_O++;
                         nb_inst_P++;
+                        instrO = instructionsOriginal[nb_inst_O];
                         instrP = instructionsPatched[nb_inst_P];
+
+                        while (instrO.IP < instrP.IP)
+                        {
+                            AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
+                            richTextBoxPatched.AppendText(Environment.NewLine);
+                            ModifColor(richTextBoxOriginal, curline);
+
+                            curline++;
+                            nb_inst_O++;
+                            instrO = instructionsOriginal[nb_inst_O];
+                        }
+                        while (instrO.IP > instrP.IP)
+                        {
+                            AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
+                            richTextBoxOriginal.AppendText(Environment.NewLine);
+                            ModifColor(richTextBoxPatched, curline);
+
+                            curline++;
+                            nb_inst_P++;
+                            instrP = instructionsPatched[nb_inst_P];
+                        }
+                        nbdiff++;
                     }
-                    nbdiff++;
+
+                    if (!equal)
+                    {
+                        AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
+                        AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
+                        curline++;
+                        richTextBoxOriginal.AppendText("----------------------------------------------------" + Environment.NewLine);
+                        richTextBoxPatched.AppendText("----------------------------------------------------" + Environment.NewLine);
+                        curline++;
+                        equal = true;
+                    }
+
+                    nb_inst_O++;
+                    nb_inst_P++;
+
+                    if (nb_inst_O % PROGRESS_MODULO == 0)
+                        progressBar1.Value = nb_inst_O;
                 }
-
-                if (!equal)
-                {
-                    AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
-                    AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
-                    curline++;
-                    richTextBoxOriginal.AppendText("----------------------------------------------------" + Environment.NewLine);
-                    richTextBoxPatched.AppendText("----------------------------------------------------" + Environment.NewLine);
-                    curline++;
-                    equal = true;
-                }
-
-                nb_inst_O++;
-                nb_inst_P++;
-
-                if (nb_inst_O % PROGRESS_MODULO == 0)
-                    progressBar1.Value = nb_inst_O; 
+                progressBar1.Value = 0;
+                done = true;
             }
-            progressBar1.Value = 0;
-            done = true;
+            catch (Exception exept)
+            {
+                MessageBoxException(exept, "Patch Code");
+            }
+        }
+        private void MessageBoxException(Exception exept, string CodeError)
+        {
+            MessageBox.Show(CodeError + " error !\nException : " + exept.Message, "Execution Error",
+                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
         private void RedProgess(float percent)
@@ -193,6 +203,7 @@ namespace DiffAsm
             string endasm = stringOutput.ToStringAndReset().PadRight(60);
             richTextBox.AppendText(endasm + Environment.NewLine);
         }
+
         private class CodeByte
         {
             public InstructionList instructions;
@@ -235,7 +246,7 @@ namespace DiffAsm
             return codeByte;
         }
 
-            private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             DialogResult result = openFileDialog1.ShowDialog();
             if (result == DialogResult.OK) // Test result.
@@ -258,14 +269,12 @@ namespace DiffAsm
             pbWIDTH = picboxPB.Width;
             pbHEIGHT = picboxPB.Height;
             pbUnit = pbWIDTH / 100.0;
-            //pbComplete - This is equal to work completed in % [min = 0 max = 100]
             pbComplete = 0;
-            //create bitmap
             bmp = new Bitmap(pbWIDTH, pbHEIGHT);
             g = Graphics.FromImage(bmp);
             g.Clear(Color.MintCream);
             picboxPB.Image = bmp;
-
         }
+
     }
 }
