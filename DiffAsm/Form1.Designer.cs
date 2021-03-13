@@ -115,6 +115,10 @@ namespace DiffAsm
             this.richTextBoxPatched.Text = "";
             this.richTextBoxPatched.VScroll += new System.EventHandler(this.richTextBoxPatched_VScroll);
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.Filter = "Executable Files|*.exe;*.dll";
+            // 
             // buttonDiff
             // 
             this.buttonDiff.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
