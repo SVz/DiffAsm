@@ -71,6 +71,13 @@ namespace DiffAsm
                 int nb_inst_O = 0;
                 int nb_inst_P = 0;
 
+                if (!CheckExeCodeSize(textBoxOriginal.Text, textBoxPatched.Text)) // Check Code Size
+                {
+                    DialogResult Messresult = MessageBox.Show("Executables code section size not equal !\nContinue anyway ?", "Size", MessageBoxButtons.YesNo , MessageBoxIcon.Warning);
+                    if (Messresult != DialogResult.Yes)
+                        return;
+                }
+
                 var codebyteOriginal = Disamexe(textBoxOriginal.Text);
                 var codebytePatched = Disamexe(textBoxPatched.Text);
                 var instructionsOriginal = codebyteOriginal.instructions;
@@ -173,6 +180,13 @@ namespace DiffAsm
             pbComplete = (int)Math.Round((decimal)percent);
             g.FillRectangle(Brushes.PaleVioletRed, new Rectangle((int)(Math.Floor(pbComplete * pbUnit)), 0, (int)(Math.Round(pbUnit)), pbHEIGHT));
             picboxPB.Image = bmp;
+        }
+
+        private bool CheckExeCodeSize(string exeo, string exep)
+        {
+            var peoHeaderE = new PeNet.PeFile(exeo);
+            var peoHeaderO = new PeNet.PeFile(exep);
+            return (peoHeaderE.ImageSectionHeaders[0].SizeOfRawData == peoHeaderO.ImageSectionHeaders[0].SizeOfRawData);
         }
 
         private void ModifColor(RichTextBox richTextBox, int curline)
