@@ -174,7 +174,7 @@ namespace DiffAsm
             this.MinimumSize = new System.Drawing.Size(927, 100);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DiffAsm v1.0 ©SVz 2o21";
+            this.Text = "DiffAsm v2.0 ©SVz 2o21";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picboxPB)).EndInit();
             this.ResumeLayout(false);

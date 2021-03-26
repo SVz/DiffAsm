@@ -53,33 +53,45 @@ namespace DiffAsm
             InitializeComponent();
         }
 
-        private void buttonDiff_Click(object sender, EventArgs e)
+        private async void buttonDiff_Click(object sender, EventArgs e)
         {
+            await ExecuteDiff();
+        }
+
+        private async Task ExecuteDiff()
+        {
+            richTextBoxOriginal.Clear();
+            richTextBoxPatched.Clear();
+
+            g.Clear(Color.MintCream);
+            picboxPB.Image = bmp;
+
+
+            if (!CheckExeCodeSize(textBoxOriginal.Text, textBoxPatched.Text)) // Check Code Size
+            {
+                DialogResult Messresult = MessageBox.Show("Executables code section size not equal !\nContinue anyway ?", "Size", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (Messresult != DialogResult.Yes)
+                    return;
+            }
+
+            var codebyteOriginal = await Task.Run(() => Disamexe(textBoxOriginal.Text));
+            var codebytePatched = await Task.Run(() => Disamexe(textBoxPatched.Text));
+
+            await ExeDiff(codebyteOriginal, codebytePatched);
+        }
+
+        private async Task ExeDiff(CodeByte codebyteOriginal, CodeByte codebytePatched)
+            {
+
+            done = false;
+            int nbdiff = 0;
+            int curline = 0;
+            bool equal = true;
+            int nb_inst_O = 0;
+            int nb_inst_P = 0;
+
             try
             {
-                richTextBoxOriginal.Clear();
-                richTextBoxPatched.Clear();
-
-                g.Clear(Color.MintCream);
-                picboxPB.Image = bmp;
-
-                done = false;
-
-                int nbdiff = 0;
-                int curline = 0;
-                bool equal = true;
-                int nb_inst_O = 0;
-                int nb_inst_P = 0;
-
-                if (!CheckExeCodeSize(textBoxOriginal.Text, textBoxPatched.Text)) // Check Code Size
-                {
-                    DialogResult Messresult = MessageBox.Show("Executables code section size not equal !\nContinue anyway ?", "Size", MessageBoxButtons.YesNo , MessageBoxIcon.Warning);
-                    if (Messresult != DialogResult.Yes)
-                        return;
-                }
-
-                var codebyteOriginal = Disamexe(textBoxOriginal.Text);
-                var codebytePatched = Disamexe(textBoxPatched.Text);
                 var instructionsOriginal = codebyteOriginal.instructions;
                 var instructionsPatched = codebytePatched.instructions;
 
@@ -95,80 +107,82 @@ namespace DiffAsm
                 richTextBoxPatched.BackColor = Color.MintCream;
                 richTextBoxPatched.ForeColor = Color.DarkGreen;
 
-                while (nb_inst_O < instructionsOriginal.Count() && nb_inst_P < instructionsPatched.Count())
-                {
-                    var instrO = instructionsOriginal[nb_inst_O];
-                    var instrP = instructionsPatched[nb_inst_P];
-
-                    while ((instrO.ToString() != instrP.ToString()) || (instrO.IP != instrP.IP))
+                await Task.Run(() => { // Async CODE Start
+                    while (nb_inst_O < instructionsOriginal.Count() && nb_inst_P < instructionsPatched.Count())
                     {
-                        if (equal)
-                        {
-                            AffRich(instructionsOriginal[nb_inst_O - 1], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
-                            AffRich(instructionsPatched[nb_inst_P - 1], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
-                            curline++;
-                            equal = false;
-                            RedProgess(((float)nb_inst_O / (float)instructionsOriginal.Count() * 100));
-                        }
-                        AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
-                        AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
-                        ModifColor(richTextBoxOriginal, curline);
-                        ModifColor(richTextBoxPatched, curline);
+                        var instrO = instructionsOriginal[nb_inst_O];
+                        var instrP = instructionsPatched[nb_inst_P];
 
-                        curline++;
-                        nb_inst_O++;
-                        nb_inst_P++;
-                        instrO = instructionsOriginal[nb_inst_O];
-                        instrP = instructionsPatched[nb_inst_P];
-
-                        while (instrO.IP < instrP.IP)
+                        while ((instrO.ToString() != instrP.ToString()) || (instrO.IP != instrP.IP))
                         {
+                            if (equal)
+                            {
+                                AffRich(instructionsOriginal[nb_inst_O - 1], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
+                                AffRich(instructionsPatched[nb_inst_P - 1], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
+                                curline++;
+                                equal = false;
+                                RedProgess(((float)nb_inst_O / (float)instructionsOriginal.Count() * 100));
+                            }
                             AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
-                            richTextBoxPatched.AppendText(Environment.NewLine);
-                            ModifColor(richTextBoxOriginal, curline);
-
-                            curline++;
-                            nb_inst_O++;
-                            instrO = instructionsOriginal[nb_inst_O];
-                        }
-                        while (instrO.IP > instrP.IP)
-                        {
                             AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
-                            richTextBoxOriginal.AppendText(Environment.NewLine);
+                            ModifColor(richTextBoxOriginal, curline);
                             ModifColor(richTextBoxPatched, curline);
 
                             curline++;
+                            nb_inst_O++;
                             nb_inst_P++;
+                            instrO = instructionsOriginal[nb_inst_O];
                             instrP = instructionsPatched[nb_inst_P];
+                            while (instrO.IP < instrP.IP)
+                            {
+                                AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
+                                richTextBoxPatched.AppendText(Environment.NewLine);
+                                ModifColor(richTextBoxOriginal, curline);
+
+                                curline++;
+                                nb_inst_O++;
+                                instrO = instructionsOriginal[nb_inst_O];
+                            }
+                            while (instrO.IP > instrP.IP)
+                            {
+                                AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
+                                richTextBoxOriginal.AppendText(Environment.NewLine);
+                                ModifColor(richTextBoxPatched, curline);
+
+                                curline++;
+                                nb_inst_P++;
+                                instrP = instructionsPatched[nb_inst_P];
+                            }
+                            nbdiff++;
                         }
-                        nbdiff++;
+
+                        if (!equal)
+                        {
+                            AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
+                            AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
+                            curline++;
+                            richTextBoxOriginal.AppendText("----------------------------------------------------" + Environment.NewLine);
+                            richTextBoxPatched.AppendText("----------------------------------------------------" + Environment.NewLine);
+                            curline++;
+                            equal = true;
+                        }
+
+                        nb_inst_O++;
+                        nb_inst_P++;
+
+                        if (nb_inst_O % PROGRESS_MODULO == 0)
+                            progressBar1.Value = nb_inst_O;
                     }
-
-                    if (!equal)
-                    {
-                        AffRich(instructionsOriginal[nb_inst_O], richTextBoxOriginal, outputO, codebyteOriginal.hexcode, codebyteOriginal.CodeRIP);
-                        AffRich(instructionsPatched[nb_inst_P], richTextBoxPatched, outputP, codebytePatched.hexcode, codebytePatched.CodeRIP);
-                        curline++;
-                        richTextBoxOriginal.AppendText("----------------------------------------------------" + Environment.NewLine);
-                        richTextBoxPatched.AppendText("----------------------------------------------------" + Environment.NewLine);
-                        curline++;
-                        equal = true;
-                    }
-
-                    nb_inst_O++;
-                    nb_inst_P++;
-
-                    if (nb_inst_O % PROGRESS_MODULO == 0)
-                        progressBar1.Value = nb_inst_O;
-                }
-                progressBar1.Value = 0;
-                done = true;
+                    progressBar1.Value = 0;
+                    done = true;
+                }); // Async CODE End
             }
             catch (Exception exept)
             {
                 MessageBoxException(exept, "Patch Code");
             }
         }
+
         private void MessageBoxException(Exception exept, string CodeError)
         {
             MessageBox.Show(CodeError + " error !\nException : " + exept.Message, "Execution Error",
