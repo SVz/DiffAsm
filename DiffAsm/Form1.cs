@@ -55,7 +55,9 @@ namespace DiffAsm
 
         private async void buttonDiff_Click(object sender, EventArgs e)
         {
+            buttonDiff.Enabled = false;
             await ExecuteDiff();
+            buttonDiff.Enabled = true;
         }
 
         private async Task ExecuteDiff()
