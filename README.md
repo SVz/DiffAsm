@@ -4,7 +4,7 @@
 ![](https://img.shields.io/github/v/release/SVz/DiffAsm)
 
 ### Features
-- Compare 2 executable files and show different instructions.
+- Compare 2 executable files and show different instructions (only first PE section analysed).
 - Graphical modified code localisation in executable section.
 
 ### Contributions
